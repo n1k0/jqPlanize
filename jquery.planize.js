@@ -1,16 +1,26 @@
 /**
  * The planize jQuery plugin adds some plan features to given DOM node containing HTML headers:
- *  - adds numerotation and anchors in front of all headers
- *  - generates an HTML table of content
+ * 
+ *  * adds numerotation and anchors in front of all headers
+ *  * generates an HTML table of content
+ * 
+ * Example of use:
+ * $('html *').planize({
+ *   separator:    ')',
+ *   generate_toc: true,
+ * });
+ *
+ * For explanations on the different options available, please check the defaultConfig var documentation 
+ * in the main function code 
+ *
  * @author  Nicolas Perriault <nperriault -> gmail.com>
  * @license MIT (http://www.opensource.org/licenses/mit-license.php)
+ * @param   Object  config  Plugin configuration
  * @return  jQuery(this)
+ *
  */
 jQuery.fn.planize = function(config) {
   
-  /**
-   * Self reference
-   */
   var self = jQuery(this);
   var processed = false;
   var toc = '';
@@ -20,7 +30,6 @@ jQuery.fn.planize = function(config) {
     add_anchors    : false,      // generates anchors for each header (automatically set to true if `generate_toc` is set to true)
     generate_toc   : false,      // generates an html unordered list containing the table of content of the document
     toc_elem       : null,       // the dom element where the toc will be append
-    toc_list_class : 'plan_toc', // the class name of the toc list element
     max_level      : 0,          // max depth level to generate a toc and header numbering (0 = all depths)
     debug          : false,      // prints debug messages into firebug or opera console
   };
@@ -78,6 +87,9 @@ jQuery.fn.planize = function(config) {
     processed = true;
   };
   
+  /**
+   * Logs a message into the firebug or opera console if available
+   */
   var log = function() {
     if (!config.debug) {
       return;
