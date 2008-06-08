@@ -21,17 +21,18 @@
  */
 jQuery.fn.planize = function(config) {
   
-  var self = jQuery(this);
-  var processed = false;
-  var toc = '';
+  var version       = '0.1';
+  var self          = jQuery(this);
+  var processed     = false;
+  var toc           = '';
   var defaultConfig = {
-    separator      : '',         // heading identifier suffix, eg. ')' in "1.2.3)"
-    sep            : '.',        // separators for numbers, eg. '.' in "1.2.3)"
-    add_anchors    : false,      // generates anchors for each header (automatically set to true if `generate_toc` is set to true)
-    generate_toc   : false,      // generates an html unordered list containing the table of content of the document
-    toc_elem       : null,       // the dom element where the toc will be append
-    max_level      : 0,          // max depth level to generate a toc and header numbering (0 = all depths)
-    debug          : false,      // prints debug messages into firebug or opera console
+    separator       : '',         // heading identifier suffix, eg. ')' in "1.2.3)"
+    sep             : '.',        // separators for numbers, eg. '.' in "1.2.3)"
+    add_anchors     : false,      // generates anchors for each header (automatically set to true if `generate_toc` is set to true)
+    generate_toc    : false,      // generates an html unordered list containing the table of content of the document
+    toc_elem        : null,       // the dom element where the toc will be append
+    max_level       : 0,          // max depth level to generate a toc and header numbering (0 = all depths)
+    debug           : false,      // prints debug messages into firebug or opera console
   };
   config = jQuery.extend(defaultConfig, config);
   
