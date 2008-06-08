@@ -7,19 +7,24 @@
  * @return  $(this)
  */
 jQuery.fn.planize = function(config) {
+  
   /**
    * Self reference
    */
   var self = jQuery(this);
   var processed = false;
-  var toc = '<ul class="plan_toc">';
+  var toc = '';
   var defaultConfig = {
-    separator    : '',
-    add_anchors  : false,
-    generate_toc : false,
-    toc_elem     : null,
+    separator      : '',         // heading identifier suffix, eg. ')' in "1.2.3)"
+    sep            : '.',        // separators for numbers, eg. '.' in "1.2.3)"
+    add_anchors    : false,      // generates anchors for each header (automatically set to true if `generate_toc` is set to true)
+    generate_toc   : false,      // generates an html unordered list containing the table of content of the document
+    toc_elem       : null,       // the dom element where the toc will be append
+    toc_list_class : 'plan_toc', // the class name of the toc list element
+    max_level      : 0,          // max depth level to generate a toc and header numbering (0 = all depths)
   };
   config = $.extend(defaultConfig, config);
+  
   /**
    * Prepends all headers text with the current tree number reference
    * @return void
@@ -34,24 +39,29 @@ jQuery.fn.planize = function(config) {
       level = parseInt(this.tagName.substring(1));
       levels[level]++;
       for (var l = 1; l <= level; l++) {
-        hLevelText += levels[l] + '.';
+        hLevelText += levels[l] + config.sep;
       }
       levels[level + 1] = 0;
       hLevelText = hLevelText.substring(0, hLevelText.length - 1);
       prependText = hLevelText;
       if (config.generate_toc || config.add_anchors) {
-        if (prevLevel > 0) {
-          if (level > prevLevel) {
-            toc += '<ul>';
-          } else if (level < prevLevel) {
+        if (config.generate_toc) {
+          var elem = "\n"+'<li><a href="#h' + hLevelText + '">' + hLevelText + (config.separator ? config.separator : '') + ' ' + $(this).text() + '</a>';
+          if (level < prevLevel) {
+            console.log(hLevelText + ', unnesting because:' + level + '<' + prevLevel);
+            var unnest = '';
             while (level < prevLevel) {
-              toc += '</ul>';
+              unnest += '</ul>';
               prevLevel--;
             }
+            toc += unnest + elem + '</li>';
+          } else if (level > prevLevel) {
+            console.log(hLevelText + ', nesting because:' + level + '>' + prevLevel);
+            toc += '<ul>' + elem;
+          } else {
+            console.log(hLevelText + ', same level (' + level + ')');
+            toc += elem;
           }
-        }
-        if (config.generate_toc) {
-          toc += '<li><a href="#h' + hLevelText + '">' + hLevelText + (config.separator ? config.separator : '') + ' ' + $(this).text() + '</a></li>';
         }
         prependText = '<span id="h' + hLevelText + '"></span>' + hLevelText;
       }
@@ -64,12 +74,13 @@ jQuery.fn.planize = function(config) {
     });
     processed = true;
   };
+  
   /**
    * Returns the HTML Table Of Content of the parsed document tree
-   * @return 
+   * @return string
    */
   this.getHtmlToc = function() {
-    return toc + '</ul>';
+    return toc;
   }
   
   this.process();
