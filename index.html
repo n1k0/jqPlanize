@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>jQuery::planize, a plugin to enhance your hierarchical documents</title>
+  <style type="text/css">
+  html { background: #eee; }
+  body { font-size: 12px; font-family: Helvetica, sans; width: 950px; margin: 0 auto; padding: 1em; border-left: 10px solid #ddd; border-right: 10px solid #ddd; background: #fff; }
+  code { font-family: Monaco, monospace; font-size: 92%; }
+  h1 { color: #353; font-family: Helvetica, sans; font-size: 42px; letter-spacing: -3px; margin-top: 0; }
+  h2 { color: #557; }
+  h3 { color: #757; }
+  p { padding-left: 1.75em; line-height: 1.7em;}
+  pre { font-family: Monaco, monospace; padding: .5em; margin-left: 1.75em; background: #111; border-left: 5px solid green; color: #fff;}
+  div#toc { float: right; width: 30%; margin-left: 1em; padding: .5em; background: #ffe; border: 1px solid #ccc; }
+  div#toc h4 { padding: 0; margin: 0; font-size: 1.2em; color: #555; }
+  div#toc a { color: black; }
+  div#toc ul { list-style-type: none; margin-left: 1em; padding-left: 0; line-height: 1.5em; }
+  </style>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
+  <script type="text/javascript" src="jquery.planize.js"></script>
+  <script type="text/javascript">
+  var originalBodyContent;
+  function restoreBodyContent(include_toc) {
+    $('body').html(originalBodyContent);
+    if (include_toc) {
+      $('body').prepend('<div id="toc"></div>');
+    }
+  }
+  $(document).ready(function(){
+    originalBodyContent = $('body').html();
+  });
+  </script>
+</head>
+<body>
+  <h1><em>jQPlanize</em> plugin for jQuery</h1>
+  <p>The planize <a href="http://jquery.com/" rel="nofollow">jQuery</a> plugin adds some hierarchical data organization features to given DOM node containing HTML headings: </p>
+  <ul>
+    <li>adds numerotation and anchors in front of all headers </li>
+    <li>generates an HTML table of content </li>
+    <li>degrades gracefully if javascript is not available/enabled </li>
+  </ul>
+  
+  <h2>See it in action!</h2>
+  <p>The examples below will run on the current page HTML source code. At any time you can <input type="button" value="reset the page" onclick="restoreBodyContent()">.</p>
+  
+  <h3>Enumeration starting from <code>H1</code></h3>
+  <pre id="ex1">$('html *').planize();</pre>
+  <p><input type="button" value="Run example" onclick="restoreBodyContent();eval($('#ex1').html());return false;" /></p>
+  
+  <h3>Enumeration starting from <code>H2</code></h3>
+  <pre id="ex2">$('html *').planize({ min_level: 2 });</pre>
+  <p><input type="button" value="Run example" onclick="restoreBodyContent();eval($('#ex2').html());return false;" /></p>
+  
+  <h3>Enumeration starting from <code>H2</code>, with a custom number suffix</h3>
+  <pre id="ex2b">$('html *').planize({ min_level: 2, number_suffix: ')' });</pre>
+  <p><input type="button" value="Run example" onclick="restoreBodyContent();eval($('#ex2b').html());return false;" /></p>
+  
+  <h3>Enumeration starting from <code>H2</code> headings and Table of Contents generation</h3>
+  <pre id="ex3">$('html *').planize({ min_level: 2, generate_toc: true, toc_elem: $('#toc') });</pre>
+  <p><input type="button" value="Run example" onclick="restoreBodyContent(true);eval($('#ex3').html());return false;" /></p>
+  
+  <h3>Enumeration starting from <code>H2</code> to <code>H3</code> headings, and Table of Contents generation</h3>
+  <pre id="ex4">$('html *').planize({ min_level: 2, max_level: 3, generate_toc: true, toc_elem: $('#toc') });</pre>
+  <p><input type="button" value="Run example" onclick="restoreBodyContent(true);eval($('#ex4').html());return false;" /></p>
+  
+  <div id="page">
+    <h2>Aliquam mi arcu, congue ut, commodo fringilla</h2>
+    <p>Venenatis sed, sapien. Duis pulvinar erat et nibh hendrerit pharetra. Aliquam et neque non neque sodales scelerisque. In sapien. Nulla vel tortor luctus nisi feugiat lacinia.</p>
+    <h3>Ut odio est</h3>
+    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
+    <h3>Vivamus lectus</h3>
+    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
+    <h4>Nunc quis nunc</h4>
+    <p>Sed suscipit. Sed eros nibh, sagittis nec, ultrices convallis, fringilla at, urna. Vestibulum tincidunt justo laoreet risus tristique posuere. Donec facilisis tincidunt dolor.</p>
+    <h4>Ut odio est</h4>
+    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
+
+    <h2>Nunc quis nunc</h2>
+    <p>Sed suscipit. Sed eros nibh, sagittis nec, ultrices convallis, fringilla at, urna. Vestibulum tincidunt justo laoreet risus tristique posuere. Donec facilisis tincidunt dolor.</p>
+    <h3>Ut odio est</h3>
+    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
+    <h3>Vivamus lectus</h3>
+    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
+
+    <h1>Vivamus lectus</h1>
+    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
+
+    <h2>Ut odio est</h2>
+    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
+    <h3>Vivamus lectus</h3>
+    <p>Consectetuer adipiscing elit. Proin neque nisi, lobortis vel, lacinia at, dapibus sed, nunc. Maecenas metus neque, gravida sit amet, adipiscing a, ultricies in, justo. Aenean augue diam, fringilla at, semper in, condimentum nec, nunc. Phasellus eleifend porttitor nunc. Suspendisse non magna. Vivamus arcu urna, lacinia a, porta non, blandit eget, eros. Donec egestas elit vel lorem.</p>
+    <h3>Sed accumsan mollis sapien</h3>
+    <p>Nulla facilisi. Sed velit urna, luctus id, porttitor in, placerat ac, justo. Morbi molestie mattis mi. Integer tempus facilisis ligula. Mauris nunc erat, ultricies eget, malesuada eget, mollis in, libero. Maecenas vel est nec nisi congue hendrerit.</p>
+
+    <h2>Aliquam mi arcu, congue ut, commodo fringilla</h2>
+    <p>Venenatis sed, sapien. Duis pulvinar erat et nibh hendrerit pharetra. Aliquam et neque non neque sodales scelerisque. In sapien. Nulla vel tortor luctus nisi feugiat lacinia.</p>
+    <h2>Nunc quis nunc</h2>
+    <p>Sed suscipit. Sed eros nibh, sagittis nec, ultrices convallis, fringilla at, urna. Vestibulum tincidunt justo laoreet risus tristique posuere. Donec facilisis tincidunt dolor.</p>
+
+    <h3>Vivamus lectus</h3>
+    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
+    <h3>Ut odio est</h3>
+    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
+  </div>
+</body>
+</head>
+  
