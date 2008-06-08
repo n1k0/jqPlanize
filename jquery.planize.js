@@ -31,7 +31,9 @@ jQuery.fn.planize = function(config) {
     add_anchors     : false,      // generates anchors for each header (automatically set to true if `generate_toc` is set to true)
     generate_toc    : false,      // generates an html unordered list containing the table of content of the document
     toc_elem        : null,       // the dom element where the toc will be append
-    max_level       : 0,          // max depth level to generate a toc and header numbering (0 = all depths)
+    toc_title       : 'Table of contents', // the TOC title
+    min_level       : 1,          // min heading level needed to be included in toc and be renumbered (0 = all headings)
+    max_level       : 6,          // max heading level needed to be included in toc and be renumbered (0 = all headings)
     debug           : false,      // prints debug messages into firebug or opera console
   };
   config = jQuery.extend(defaultConfig, config);
@@ -48,17 +50,17 @@ jQuery.fn.planize = function(config) {
     var prevLevel   = 0;
     self.children('*:header').each(function(index) {
       level = parseInt(this.tagName.substring(1));
-      if (config.max_level <= 0 || level <= config.max_level) {
+      if (config.min_level <= level && level <= config.max_level) {
         levels[level]++;
         for (var l = 1; l <= level; l++) {
-          hLevelText += levels[l] + config.sep;
+          hLevelText += levels[l] > 0 ? levels[l] + config.sep : '';
         }
         levels[level + 1] = 0;
         hLevelText = hLevelText.substring(0, hLevelText.length - 1);
         prependText = hLevelText;
         if (config.generate_toc || config.add_anchors) {
           if (config.generate_toc) {
-            var elem = "\n"+'<li><a href="#h' + hLevelText + '">' + hLevelText + (config.separator ? config.separator : '') + ' ' + jQuery(this).text() + '</a>';
+            var elem = "\n"+'<li>' + hLevelText + (config.separator ? config.separator : '') + ' ' + '<a href="#h' + hLevelText + '">' + jQuery(this).text() + '</a>';
             if (level < prevLevel) {
               log(hLevelText + ', unnesting because:' + level + '<' + prevLevel);
               var unnest = '';
@@ -107,7 +109,10 @@ jQuery.fn.planize = function(config) {
   process();
   
   if (config.generate_toc) {
-    jQuery(config.toc_elem ? config.toc_elem : 'body').prepend(toc);
+    if (config.toc_title) {
+      toc = '<h4>' + config.toc_title + '</h4>' + toc;
+    }
+    jQuery(config.toc_elem ? config.toc_elem : 'body').append(toc);
   }
   
   return jQuery(this);
