@@ -5,13 +5,19 @@
   <title>jQuery::planize, a plugin to enhance your hierarchical documents</title>
   <style type="text/css">
   html { background: #eee; }
-  body { font-size: 12px; font-family: Helvetica, sans; width: 950px; margin: 0 auto; padding: 1em; border-left: 10px solid #ddd; border-right: 10px solid #ddd; background: #fff; }
-  code { font-family: Monaco, monospace; font-size: 92%; }
+  body { font-size: 13px; font-family: Helvetica, sans; width: 950px; margin: 0 auto; padding: 1em; border-left: 10px solid #ddd; border-right: 10px solid #ddd; background: #fff; }
+  blockquote { background: #eee; padding: .2em 1em; border: 1px solid #ccc; }
+  blockquote p { padding: 0; margin: .8em 0; }
+  code { font-family: Monaco, monospace; font-size: 92%; color: green; background: #eee; padding: 0 .1em; }
+  dl { line-height: 1.5em; padding-left: 1.75em; }
+  dt { font-weight: bold; font-family: Georgia, serif; font-style: italic; font-size: 105%; color: #336; }
+  dd { margin-bottom: .5em; }
   h1 { color: #353; font-family: Helvetica, sans; font-size: 42px; letter-spacing: -3px; margin-top: 0; }
   h2 { color: #557; }
   h3 { color: #757; }
-  p { padding-left: 1.75em; line-height: 1.7em;}
-  pre { font-family: Monaco, monospace; padding: .5em; margin-left: 1.75em; background: #111; border-left: 5px solid green; color: #fff;}
+  p { padding-left: 1.75em; line-height: 1.7em; }
+  li { line-height: 1.5em; }
+  pre { font-family: Monaco, monospace; padding: .5em; margin-left: 1.75em; background: #111; border-left: 5px solid green; color: #fff; font-size: .9em;}
   div#toc { float: right; width: 30%; margin-left: 1em; padding: .5em; background: #ffe; border: 1px solid #ccc; }
   div#toc h4 { padding: 0; margin: 0; font-size: 1.2em; color: #555; }
   div#toc a { color: black; }
@@ -34,36 +40,80 @@
 </head>
 <body>
   <h1><em>jQPlanize</em> plugin for jQuery</h1>
-  <p>The planize <a href="http://jquery.com/" rel="nofollow">jQuery</a> plugin adds some hierarchical data organization features to given DOM node containing HTML headings: </p>
+  <p><strong>The planize <a href="http://jquery.com/" rel="nofollow">jQuery</a> plugin adds some hierarchical data organization features to given DOM node containing HTML headings (you know, the <code>h1 .. h6</code> tags).</strong></p>
   <ul>
     <li>adds numerotation and anchors in front of all headers </li>
     <li>generates an HTML table of content </li>
     <li>degrades gracefully if javascript is not available/enabled </li>
   </ul>
+  <p>As an example, how is hard to browse this long page without a table of content? Now click <input type="button" value="this button" onclick="restoreBodyContent(true);$('html *').planize({ number_suffix: '.', generate_toc: true, min_level: 2, toc_elem: $('#toc') });" />. Now, you see?</p>
   
   <h2>See it in action!</h2>
   <p>The examples below will run on the current page HTML source code. At any time you can <input type="button" value="reset the page" onclick="restoreBodyContent()">.</p>
   
-  <h3>Enumeration starting from <code>H1</code></h3>
+  <h3>Headings enumeration for the whole document</h3>
   <pre id="ex1">$('html *').planize();</pre>
   <p><input type="button" value="Run example" onclick="restoreBodyContent();eval($('#ex1').html());return false;" /></p>
   
-  <h3>Enumeration starting from <code>H2</code></h3>
+  <h3>Headings enumeration starting from <code>H2</code></h3>
   <pre id="ex2">$('html *').planize({ min_level: 2 });</pre>
   <p><input type="button" value="Run example" onclick="restoreBodyContent();eval($('#ex2').html());return false;" /></p>
   
-  <h3>Enumeration starting from <code>H2</code>, with a custom number suffix</h3>
+  <h3>Headings enumeration starting from <code>H2</code>, with a custom number suffix</h3>
   <pre id="ex2b">$('html *').planize({ min_level: 2, number_suffix: ')' });</pre>
   <p><input type="button" value="Run example" onclick="restoreBodyContent();eval($('#ex2b').html());return false;" /></p>
   
-  <h3>Enumeration starting from <code>H2</code> headings and Table of Contents generation</h3>
+  <h3>Headings enumeration starting from <code>H2</code> headings and Table of Contents generation</h3>
   <pre id="ex3">$('html *').planize({ min_level: 2, generate_toc: true, toc_elem: $('#toc') });</pre>
   <p><input type="button" value="Run example" onclick="restoreBodyContent(true);eval($('#ex3').html());return false;" /></p>
   
-  <h3>Enumeration starting from <code>H2</code> to <code>H3</code> headings, and Table of Contents generation</h3>
-  <pre id="ex4">$('html *').planize({ min_level: 2, max_level: 3, generate_toc: true, toc_elem: $('#toc') });</pre>
+  <h3><code>H2</code> headings enumeration only, and Table of Contents generation</h3>
+  <pre id="ex4">$('html *').planize({ min_level: 2, max_level: 2, generate_toc: true, toc_elem: $('#toc') });</pre>
   <p><input type="button" value="Run example" onclick="restoreBodyContent(true);eval($('#ex4').html());return false;" /></p>
+
+  <h2><abbr title="Frequently Asked Questions">FAQ</abbr></h2>
+  <dl>
+    <dt>Why didn't you use the ordered list feature of the HTML spec? </a></dt>
+    <dd>Because it's lame.</dd>
+    
+    <dt>Why the hell the code is so ugly?</dt>
+    <dd>This is my first jQuery plugin authoring attempt, that's maybe why.<</dd></dd>
+    
+    <dt>Why didn't you use a recursive function to generate TOC subitems code?</dt>
+    <dd>Because parsing a linear array of headings and generating a nested list is not that easy, but I can't wait seeing your patch.</dd>
+    
+    <dt>Can I send you a patch?</dt>
+    <dd>Of course, use the issue tracker for that purpose.</dd>
+    
+    <dt>Can I report an issue?</dt>  
+    <dd>Of course, use the issue tracker for that purpose. Try to attach a patch if you can.</dd>
+    
+    <dt>Can you grant me a commit access to the subversion repository?</dt>
+    <dd>Send me a patch first, if I think it's cool you'll have your commit account.</dd>
+  </dl>
   
+  <h2>License</h2>
+  <p>This plugin is licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>. That means:</p>
+  <blockquote>
+    <p>Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:</p>
+
+    <p>The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.</p>
+
+    <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.</p>
+  </blockquote>
+
   <div id="page">
     <h2>Aliquam mi arcu, congue ut, commodo fringilla</h2>
     <p>Venenatis sed, sapien. Duis pulvinar erat et nibh hendrerit pharetra. Aliquam et neque non neque sodales scelerisque. In sapien. Nulla vel tortor luctus nisi feugiat lacinia.</p>

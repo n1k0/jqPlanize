@@ -30,7 +30,7 @@
 
   $.fn.planize = function(config) {
   
-    var self          = jQuery(this);
+    var self          = $(this);
     var processed     = false;
     var toc           = '';
     var defaultConfig = {
@@ -44,7 +44,7 @@
       toc_elem         : null,       // the dom element where the toc will be append
       toc_title        : 'Table of contents', // the title of the table of content
     };
-    config = jQuery.extend(defaultConfig, config);
+    config = $.extend(defaultConfig, config);
   
     /**
      * Prepends all headers text with the current tree number reference
@@ -68,7 +68,7 @@
           prependText = hLevelText;
           if (config.generate_toc || config.add_anchors) {
             if (config.generate_toc) {
-              var elem = "\n"+'<li>' + hLevelText + (config.number_suffix ? config.number_suffix : '') + ' ' + '<a href="#h' + hLevelText + '">' + jQuery(this).text() + '</a>';
+              var elem = "\n"+'<li>' + hLevelText + (config.number_suffix ? config.number_suffix : '') + ' ' + '<a href="#h' + hLevelText + '">' + $(this).text() + '</a>';
               if (level < prevLevel) {
                 log(hLevelText + ', unnesting because:' + level + '<' + prevLevel);
                 var unnest = '';
@@ -90,7 +90,7 @@
           if (config.number_suffix) {
             prependText += config.number_suffix;
           }
-          jQuery(this).prepend(prependText + ' ');
+          $(this).prepend(prependText + ' ');
           prependText = hLevelText = '';
           prevLevel = level;
         }
@@ -114,20 +114,16 @@
       }
     }
   
-    var getVersion = function() {
-      return version;
-    }
-  
     process();
   
     if (config.generate_toc) {
       if (config.toc_title) {
         toc = '<h4>' + config.toc_title + '</h4>' + toc;
       }
-      jQuery(config.toc_elem ? config.toc_elem : 'body').append(toc);
+      $(config.toc_elem ? config.toc_elem : 'body').append(toc);
     }
   
-    return jQuery(this);
+    return $(this);
   };
 
 })(jQuery);
