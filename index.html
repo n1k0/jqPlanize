@@ -47,6 +47,7 @@
     <li>degrades gracefully if javascript is not available/enabled </li>
   </ul>
   <p>As an example, how is hard to browse this long page without a table of content? Now click <input type="button" value="this button" onclick="restoreBodyContent(true);$('html *').planize({ number_suffix: '.', generate_toc: true, min_level: 2, toc_elem: $('#toc') });" />. Now, you see?</p>
+  <p>The <a href="http://code.google.com/p/jqplanize/">source code is hosted at Google</a>, feel free to checkout installation instructions and report bugs there.</p>
   
   <h2>See it in action!</h2>
   <p>The examples below will run on the current page HTML source code. At any time you can <input type="button" value="reset the page" onclick="restoreBodyContent()">.</p>
@@ -73,20 +74,20 @@
 
   <h2><abbr title="Frequently Asked Questions">FAQ</abbr></h2>
   <dl>
-    <dt>Why didn't you use the ordered list feature of the HTML spec? </a></dt>
+    <dt>Why didn't you use the ordered list feature of the HTML spec?</dt>
     <dd>Because it's lame.</dd>
     
     <dt>Why the hell the code is so ugly?</dt>
-    <dd>This is my first jQuery plugin authoring attempt, that's maybe why.<</dd></dd>
+    <dd>This is my first jQuery plugin authoring attempt, that's maybe why.</dd>
     
     <dt>Why didn't you use a recursive function to generate TOC subitems code?</dt>
     <dd>Because parsing a linear array of headings and generating a nested list is not that easy, but I can't wait seeing your patch.</dd>
     
     <dt>Can I send you a patch?</dt>
-    <dd>Of course, use the issue tracker for that purpose.</dd>
+    <dd>Of course, use the <a href="http://code.google.com/p/jqplanize/issues/entry">issue tracker</a> for that purpose.</dd>
     
     <dt>Can I report an issue?</dt>  
-    <dd>Of course, use the issue tracker for that purpose. Try to attach a patch if you can.</dd>
+    <dd>Of course, use the <a href="http://code.google.com/p/jqplanize/issues/entry">issue tracker</a> for that purpose. Try to attach a patch if you can.</dd>
     
     <dt>Can you grant me a commit access to the subversion repository?</dt>
     <dd>Send me a patch first, if I think it's cool you'll have your commit account.</dd>
