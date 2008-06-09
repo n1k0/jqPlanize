@@ -34,15 +34,15 @@
     var processed     = false;
     var toc           = '';
     var defaultConfig = {
-      add_anchors      : false,      // generates anchors for each header (automatically set to true if `generate_toc` is set to true)
-      debug            : false,      // prints pretty debug messages into the firebug or opera console, if available
-      generate_toc     : false,      // generates an html unordered list containing the table of content of the document
-      min_level        : 1,          // min heading level needed to be included in toc and be renumbered (0 = all headings)
-      max_level        : 6,          // max heading level needed to be included in toc and be renumbered (0 = all headings)
-      number_suffix    : '',         // heading identifier suffix, eg. ')' in "1.2.3)"
-      number_separator : '.',        // separator for numbers, eg. '.' in "1.2.3)"
-      toc_elem         : null,       // the dom element where the toc will be append
-      toc_title        : 'Table of contents', // the title of the table of content
+      add_anchors      : false,
+      debug            : false,
+      generate_toc     : false,
+      min_level        : 1,
+      max_level        : 6,
+      number_suffix    : '',
+      number_separator : '.',
+      toc_elem         : null,
+      toc_title        : 'Table of contents',
     };
     config = $.extend(defaultConfig, config);
   
