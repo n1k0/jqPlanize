@@ -11,13 +11,14 @@
   code { font-family: Monaco, monospace; font-size: 92%; color: green; background: #eee; padding: 0 .1em; }
   dl { line-height: 1.5em; padding-left: 1.75em; }
   dt { font-weight: bold; font-family: Georgia, serif; font-style: italic; font-size: 105%; color: #336; }
-  dd { margin-bottom: .5em; }
+  dd { margin-bottom: .5em; padding: .5em 0; }
   h1 { color: #353; font-family: Helvetica, sans; font-size: 42px; letter-spacing: -3px; margin-top: 0; }
   h2 { color: #557; }
   h3 { color: #757; }
   p { padding-left: 1.75em; line-height: 1.7em; }
   li { line-height: 1.5em; }
   pre { font-family: Monaco, monospace; padding: .5em; margin-left: 1.75em; background: #111; border-left: 5px solid green; color: #fff; font-size: .9em;}
+  a.bkl { display: block; width: 200px; padding: .2em; margin: 0 auto; background: #fafafa; color: red; text-decoration: none; font-weight: bold; text-align: center; border: 2px solid red; font-size: 1.2em; text-decoration: underline; }
   div#toc { float: right; width: 30%; margin-left: 1em; padding: .5em; background: #ffe; border: 1px solid #ccc; }
   div#toc h4 { padding: 0; margin: 0; font-size: 1.2em; color: #555; }
   div#toc a { color: black; }
@@ -48,7 +49,7 @@
     <li>degrades gracefully if javascript is not available/enabled </li>
   </ul>
   <p>As an example, how is hard to browse this long page without a table of content? Now click <input type="button" value="this button" onclick="restoreBodyContent(true);$('html *').planize({ number_suffix: '.', generate_toc: true, min_level: 2, toc_elem: $('#toc') });" />. Now, you see?</p>
-  <p>The <a href="http://code.google.com/p/jqplanize/">source code is hosted at Google</a>, feel free to checkout installation instructions and report bugs there.</p>
+  <p>The <a href="http://code.google.com/p/jqplanize/">source code</a> and <a href="http://code.google.com/p/jqplanize/issues/list">an issue tracker</a> are hosted at Google.</p>
   
   <h2>See it in action!</h2>
   <p>The examples below will run on the current page HTML source code. At any time you can <input type="button" value="reset the page" onclick="restoreBodyContent()">.</p>
@@ -72,6 +73,58 @@
   <h3><code>H2</code> headings enumeration only, and Table of Contents generation</h3>
   <pre id="ex4">$('html *').planize({ min_level: 2, max_level: 2, generate_toc: true, toc_elem: $('#toc') });</pre>
   <p><input type="button" value="Run example" onclick="restoreBodyContent(true);eval($('#ex4').html());return false;" /></p>
+
+  <h2>Installation instructions</h2>
+  <p>Installation is fairly simple. Just add these lines within the <code>&lt;head&gt;</code> tag of your HTML document: </p>
+  <pre>
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://jqplanize.googlecode.com/svn/trunk/jquery.planize.js&quot;&gt;&lt;/script&gt;
+</pre>
+  <p>Note: Maybe storing your own local copy of the <code>jquery.planize.js</code> would be a great idea. </p>
+  
+  <h2>Basic usage</h2>
+  <p>This is a jQuery plugin, so you can apply a custom method to a DOM element or a collection of DOM elements matching a <a href="http://docs.jquery.com/Selectors">jQuery selector</a> call:</p>
+  <pre>
+$('#myDiv').planize();        // Will match the div with the "myDiv" id in the page
+$('div.pageblock').planize(); // Will match all divs with class "pageblocks"
+etc.
+</pre>
+  <p>Configuring jqplanize is done by passing a Javascript object to the <code>planize()</code> function:</p>
+  <pre>
+$('#myDiv').planize({ generate_toc: true });
+</pre>
+  <p>Here are the available configuration object parameters:</p>
+  <dl>
+    <dt>add_anchors</dt>
+    <dd>generates anchors for each header (automatically set to true if <code>generate_toc</code> is set to true)</dd>
+    <dt>callback</dt>
+    <dd>a function called when processing is finished. The <code>toc_elem</code> object will be passed back as an argument.</dd>
+    <dt>debug</dt>
+    <dd>prints pretty debug messages into the firebug or opera console, if available</dd>
+    <dt>generate_toc</dt>
+    <dd>generates an html unordered list containing the table of content of the document</dd>
+    <dt>min_level</dt>
+    <dd>min heading level needed to be included in toc and be renumbered (0 = all headings)</dd>
+    <dt>max_level</dt>
+    <dd>max heading level needed to be included in toc and be renumbered (0 = all headings)</dd>
+    <dt>number_suffix</dt>
+    <dd>heading identifier suffix, eg. <code>)</code> in <code>1.2.3)</code></dd>
+    <dt>number_separator</dt>
+    <dd>separator for numbers, eg. <code>.</code> in <code>1.2.3)</code></dd>
+    <dt>toc_elem</dt>
+    <dd>the dom element where the toc will be append</dd>
+    <dt>toc_title</dt>
+    <dd>the title of the table of content</dd>
+  </dl>  
+  
+  <h2>Known issues</h2>
+  <ul>
+    <li>Currently jqplanize doesn't work in Opera. I'm digging to find out why. </li>
+  </ul>
+
+  <h2>The bookmarklet</h2>
+  <p>You can drag the bookmarklet below to your personal bookmark bar, so you'll be able to generate the table of content on (quite) every page you browse on the web:</p>
+  <p><a href="javascript:var%20s=document.createElement('script');s.setAttribute('src','http://prendreuncafe.com/work/jqplanize/bookmarklet.js');document.getElementsByTagName('head')[0].appendChild(s);void(0)" class="bkl">Planize this</a></p>
 
   <h2><abbr title="Frequently Asked Questions">FAQ</abbr></h2>
   <dl>
@@ -116,45 +169,9 @@
     THE SOFTWARE.</p>
   </blockquote>
 
-  <div id="page">
-    <h2>Aliquam mi arcu, congue ut, commodo fringilla</h2>
-    <p>Venenatis sed, sapien. Duis pulvinar erat et nibh hendrerit pharetra. Aliquam et neque non neque sodales scelerisque. In sapien. Nulla vel tortor luctus nisi feugiat lacinia.</p>
-    <h3>Ut odio est</h3>
-    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
-    <h3>Vivamus lectus</h3>
-    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
-    <h4>Nunc quis nunc</h4>
-    <p>Sed suscipit. Sed eros nibh, sagittis nec, ultrices convallis, fringilla at, urna. Vestibulum tincidunt justo laoreet risus tristique posuere. Donec facilisis tincidunt dolor.</p>
-    <h4>Ut odio est</h4>
-    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
-
-    <h2>Nunc quis nunc</h2>
-    <p>Sed suscipit. Sed eros nibh, sagittis nec, ultrices convallis, fringilla at, urna. Vestibulum tincidunt justo laoreet risus tristique posuere. Donec facilisis tincidunt dolor.</p>
-    <h3>Ut odio est</h3>
-    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
-    <h3>Vivamus lectus</h3>
-    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
-
-    <h1>Vivamus lectus</h1>
-    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
-
-    <h2>Ut odio est</h2>
-    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
-    <h3>Vivamus lectus</h3>
-    <p>Consectetuer adipiscing elit. Proin neque nisi, lobortis vel, lacinia at, dapibus sed, nunc. Maecenas metus neque, gravida sit amet, adipiscing a, ultricies in, justo. Aenean augue diam, fringilla at, semper in, condimentum nec, nunc. Phasellus eleifend porttitor nunc. Suspendisse non magna. Vivamus arcu urna, lacinia a, porta non, blandit eget, eros. Donec egestas elit vel lorem.</p>
-    <h3>Sed accumsan mollis sapien</h3>
-    <p>Nulla facilisi. Sed velit urna, luctus id, porttitor in, placerat ac, justo. Morbi molestie mattis mi. Integer tempus facilisis ligula. Mauris nunc erat, ultricies eget, malesuada eget, mollis in, libero. Maecenas vel est nec nisi congue hendrerit.</p>
-
-    <h2>Aliquam mi arcu, congue ut, commodo fringilla</h2>
-    <p>Venenatis sed, sapien. Duis pulvinar erat et nibh hendrerit pharetra. Aliquam et neque non neque sodales scelerisque. In sapien. Nulla vel tortor luctus nisi feugiat lacinia.</p>
-    <h2>Nunc quis nunc</h2>
-    <p>Sed suscipit. Sed eros nibh, sagittis nec, ultrices convallis, fringilla at, urna. Vestibulum tincidunt justo laoreet risus tristique posuere. Donec facilisis tincidunt dolor.</p>
-
-    <h3>Vivamus lectus</h3>
-    <p>Donec at felis. Morbi eu ante vitae diam ultrices aliquam. Fusce quam eros, tincidunt eu, cursus a, aliquam eu, dui. Donec lobortis urna vitae quam.</p>
-    <h3>Ut odio est</h3>
-    <p>pharetra non, auctor in, cursus et, velit. Proin sed mauris. Donec eu eros quis est accumsan adipiscing. Vivamus pretium justo id ipsum. Phasellus tortor lacus, faucibus a, tempor sed, rhoncus nec, enim.</p>
-  </div>
+  <h2>About me</h2>
+  <p>My name is Nicolas Perriault, I'm a french developer based near Paris. Feel free to <a href="/blog/">browse my blog</a>, mainly in french.</p>
+  
   <p id="footer">
     (c) 2008 - <a href="http://prendreuncafe.com/">Nicolas Perriault</a>
   </p>

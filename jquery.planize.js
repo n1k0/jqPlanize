@@ -10,6 +10,7 @@
  *
  * Configuration object parameters documentation:
  *  - add_anchors      : generates anchors for each header (automatically set to true if `generate_toc` is set to true)
+ *  - callback         : a function called when processing is finished
  *  - debug            : prints pretty debug messages into the firebug or opera console, if available
  *  - generate_toc     : generates an html unordered list containing the table of content of the document
  *  - min_level        : min heading level needed to be included in toc and be renumbered (0 = all headings)
@@ -26,16 +27,17 @@
  * @return    jQuery(this)
  *
  */
-(function($){
+(function(jQuery){
 
-  $.fn.planize = function(config) {
+  jQuery.fn.planize = function(config) {
   
-    var self          = $(this);
+    var self          = jQuery(this);
     var processed     = false;
     var toc           = '';
     var defaultConfig = {
       add_anchors      : false,
-      debug            : false,
+      callback         : null,
+      debug            : true,
       generate_toc     : false,
       min_level        : 1,
       max_level        : 6,
@@ -44,7 +46,7 @@
       toc_elem         : null,
       toc_title        : 'Table of contents',
     };
-    config = $.extend(defaultConfig, config);
+    config = jQuery.extend(defaultConfig, config);
   
     /**
      * Prepends all headers text with the current tree number reference
@@ -56,9 +58,12 @@
       var hLevelText  = '';
       var prependText = '';
       var prevLevel   = 0;
-      self.children('*:header').each(function(index) {
-        level = parseInt(this.tagName.substring(1));
+      var n           = 0;
+      self.children('*:header:visible').each(function(index, heading) {
+        log('Processing heading %o', heading);
+        level = parseInt(heading.tagName.substring(1));
         if (config.min_level <= level && level <= config.max_level) {
+          n++;
           levels[level]++;
           for (var l = 1; l <= level; l++) {
             hLevelText += levels[l] > 0 ? levels[l] + config.number_separator : '';
@@ -68,7 +73,8 @@
           prependText = hLevelText;
           if (config.generate_toc || config.add_anchors) {
             if (config.generate_toc) {
-              var elem = "\n"+'<li>' + hLevelText + (config.number_suffix ? config.number_suffix : '') + ' ' + '<a href="#h' + hLevelText + '">' + $(this).text() + '</a>';
+              var link = '<a href="#h' + hLevelText + '">' +jQuery('<span/>').text(jQuery(this).text()).html() + '</a>';
+              var elem = "\n"+'<li>' + hLevelText + (config.number_suffix ? config.number_suffix : '') + ' ' + link;
               if (level < prevLevel) {
                 log(hLevelText + ', unnesting because:' + level + '<' + prevLevel);
                 var unnest = '';
@@ -90,11 +96,22 @@
           if (config.number_suffix) {
             prependText += config.number_suffix;
           }
-          $(this).prepend(prependText + ' ');
+          jQuery(this).prepend(prependText + ' ');
           prependText = hLevelText = '';
           prevLevel = level;
         }
       });
+      
+      if (config.generate_toc) {
+        if (config.toc_title) {
+          toc = '<h4>' + config.toc_title + '</h4>' + toc;
+        }
+        if (n == 0) {
+          toc += '<p>No heading found for this document.</p>';
+        }
+        jQuery(config.toc_elem ? config.toc_elem : 'body').append(toc);
+      }
+      
       processed = true;
     };
   
@@ -115,15 +132,12 @@
     }
   
     process();
-  
-    if (config.generate_toc) {
-      if (config.toc_title) {
-        toc = '<h4>' + config.toc_title + '</h4>' + toc;
-      }
-      $(config.toc_elem ? config.toc_elem : 'body').append(toc);
+    
+    if (config.callback) {
+      config.callback(config.toc_elem);
     }
   
-    return $(this);
+    return jQuery(this);
   };
 
 })(jQuery);
