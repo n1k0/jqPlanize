@@ -37,7 +37,7 @@
     var defaultConfig = {
       add_anchors      : false,
       callback         : null,
-      debug            : true,
+      debug            : false,
       generate_toc     : false,
       min_level        : 1,
       max_level        : 6,

@@ -8,7 +8,7 @@
  */
 (function() {
 
-  var debug = true;
+  var debug = false;
   var h = document.getElementsByTagName('head')[0];
   var scripts = { 
                   jquery:  'http://ajax.googleapis.com/ajax/libs/jquery/1.2/jquery.js',
