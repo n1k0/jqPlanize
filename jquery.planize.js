@@ -44,7 +44,7 @@
       number_suffix    : '',
       number_separator : '.',
       toc_elem         : null,
-      toc_title        : 'Table of contents',
+      toc_title        : 'Table of contents'
     };
     config = jQuery.extend(defaultConfig, config);
   
