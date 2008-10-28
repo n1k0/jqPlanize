@@ -1,12 +1,13 @@
 /**
  * The planize jQuery plugin adds some features for dealing with hierarchical headings in a given DOM element.
  * 
- *  * adds enumerations and anchors in all headings,
- *  * can generates an HTML table of content and append it to an existing DOM element,
- *  * in an unobstrusive way.
+ *  - adds enumerations and anchors in all headings,
+ *  - can generates an HTML table of content and append it to an existing DOM element,
+ *  - in an unobstrusive way.
  * 
  * Example of use:
- * $('html *').planize();
+ *
+ *    $('html *').planize();
  *
  * Configuration object parameters documentation:
  *  - add_anchors      : generates anchors for each header (automatically set to true if `generate_toc` is set to true)
@@ -18,10 +19,11 @@
  *  - number_suffix    : heading identifier suffix, eg. ')' in "1.2.3)"
  *  - number_separator : separator for numbers, eg. '.' in "1.2.3)"
  *  - toc_elem         : the dom element where the toc will be append
+ *  - toc_none         : the message to display if no headings have been found in the current document
  *  - toc_title        : the title of the table of content
  *
- * @requires  jQuery v1.2 or later
- * @author    Nicolas Perriault <nperriault -> gmail.com>
+ * @requires  jQuery v1.2 or higher
+ * @author    Nicolas Perriault <nperriault _at_ gmail _dot_ com>
  * @license   MIT (http://www.opensource.org/licenses/mit-license.php)
  * @param     Object  config  Plugin configuration
  * @return    jQuery(this)
@@ -44,12 +46,14 @@
       number_suffix    : '',
       number_separator : '.',
       toc_elem         : null,
+      toc_none         : 'No heading found for this document',
       toc_title        : 'Table of contents'
     };
     config = jQuery.extend(defaultConfig, config);
   
     /**
      * Prepends all headers text with the current tree number reference
+     
      * @return void
      */
     var process = function() {
@@ -107,7 +111,7 @@
           toc = '<h4>' + config.toc_title + '</h4>' + toc;
         }
         if (n == 0) {
-          toc += '<p>No heading found for this document.</p>';
+          toc += config.toc_none ? '<p>' + config.toc_none + '</p>' : '';
         }
         jQuery(config.toc_elem ? config.toc_elem : 'body').append(toc);
       }
@@ -117,6 +121,7 @@
   
     /**
      * Logs a message into the firebug or opera console if available
+     *
      */
     var log = function() {
       if (!config.debug) {
