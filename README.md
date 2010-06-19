@@ -79,8 +79,8 @@ Installation
 
 Installation is fairly simple. Just add these lines within the `<head>` tag of your HTML document:
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
-    <script type="text/javascript" src="http://jqplanize.googlecode.com/svn/trunk/jquery.planize.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.x.x/jquery.js"></script>
+    <script type="text/javascript" src="jquery.planize.js"></script>
 
 Note: Maybe storing your own local copy of the jquery.planize.js would be a great idea.
 
@@ -97,15 +97,14 @@ This work is released under the terms of the [MIT license](http://en.wikipedia.o
 FAQ
 ---
 
-1. Why didn't you use the ordered list features of the HTML/CSS2 specs?
-  * Because it's lame. Well okay, let's say, bloated and complex. I'll try to implement it when Internet Explorer will have full css2.1 support (read: never). 
-2. Why the hell the code is so ugly?
-  * This is my first jQuery plugin authoring attempt, that's maybe why. 
-3. Why didn't you use a recursive function to generate TOC subitems code?
-  * Because parsing a linear array of headings and generating a nested list is not that easy, but I can't wait seeing your patch. 
-4. Can I send you a patch?
-  * Of course, use the issue tracker for that purpose. 
-5. Can I report an issue?
-  * Of course, use the issue tracker for that purpose. Try to attach a patch if you can. 
-6. Can you grant me a commit access to the subversion repository?
-  * Send me a patch first, if I think it's cool you'll have your commit account. 
+>Why didn't you use the ordered list features of the HTML/CSS2 specs?
+
+Because it's lame. Well okay, let's say, bloated and complex. I'll try to implement it when Internet Explorer will have full css2.1 support (read: never). 
+
+> Why the hell the code is so ugly?
+
+This is my first jQuery plugin authoring attempt, that's maybe why. 
+
+>Why didn't you use a recursive function to generate TOC subitems code?
+
+Because parsing a linear array of headings and generating a nested list is not that easy, but I can't wait seeing your patch. 
